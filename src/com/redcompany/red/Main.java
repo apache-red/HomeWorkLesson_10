@@ -1,24 +1,47 @@
 package com.redcompany.red;
 
 public class Main {
+    //test
+    final static int numberOfStarts = 10000;
 
     public static void main(String[] args) {
-        //
 
-          System.out.println(method1String("This is test a string This is a test string", 4, '%'));
-          System.out.println(method2StringB("This is test a string This is a test string", 3, '%'));
-        System.out.println(method3StringB("This is ingtest a singtring This is a test string This is test a string This is a test string", "ing", "%%%"));
 
+        System.out.println(method1String("This is test a string This is a test string", 4, '%'));
+        System.out.println(method2StringB("This is test a string This is a test string", 3, '%'));
+        System.out.println(method3String("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%"));
+        System.out.println(method4StringB("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%"));
 
         // speed test
-        //test1();
-        //test2();
+        System.out.println("speed and memory test:");
+        test1();
+        test2();
+        test3();
+        test4();
 
 
     }
 
+    static String method3String(String s, String find, String change) {
+        String[] arrOfStr = s.split(" ");
+        String result = "";
+        tab:
+        for (int i = 0; i < arrOfStr.length; i++) {
+            if (arrOfStr[i].contains(find)) {
+                if (find.equals(arrOfStr[i].substring((arrOfStr[i].length() - find.length()), arrOfStr[i].length()))) {
+                    result = result.concat(arrOfStr[i].replace(find, change)).concat(" ");
+                } else {
+                    result = result.concat(arrOfStr[i]).concat(" ");
+                }
+            } else {
+                result = result.concat(arrOfStr[i]).concat(" ");
+                continue tab;
+            }
+        }
+        return result;
+    }
 
-    static String method3StringB(String s, String find, String change) {
+    static String method4StringB(String s, String find, String change) {
         String[] arrOfStr = s.split(" ");
         StringBuilder resultSB = new StringBuilder();
         tab:
@@ -26,8 +49,8 @@ public class Main {
             StringBuilder sb = new StringBuilder(arrOfStr[i]);
             if (arrOfStr[i].contains(find)) {
                 if (find.equals(sb.substring((arrOfStr[i].length() - find.length()), arrOfStr[i].length()))) {
-                    resultSB.append(sb.replace(arrOfStr[i].length() - find.length(), arrOfStr[i].length(), change)+" ");
-                }else {
+                    resultSB.append(sb.replace(arrOfStr[i].length() - find.length(), arrOfStr[i].length(), change) + " ");
+                } else {
                     resultSB.append(sb.append(" "));
                 }
             } else {
@@ -49,9 +72,9 @@ public class Main {
             if ((arrOfStr[i].length()) >= k) {
                 char[] tmp = arrOfStr[i].toCharArray();
                 tmp[k - 1] = change;
-                result = result + String.valueOf(tmp) + " ";
+                result = result.concat(String.valueOf(tmp)).concat(" ");
             } else {
-                result = result + arrOfStr[i] + " ";
+                result = result.concat(arrOfStr[i]).concat(" ");
                 continue tab;
             }
         }
@@ -78,44 +101,93 @@ public class Main {
         return resultSB.toString();
     }
 
-
     static void test1() {
-        int numberOfStarts = 1000000;
         long average = 0;
-        // long a = 0;
+        long a = 0;
         for (int i = 0; i < numberOfStarts; i++) {
-            //    long s = Runtime.getRuntime().freeMemory();
             long startTime = System.nanoTime();
             method1String("This is test a string This is a test string", 4, '%');
             long endTime = System.nanoTime();
             average = average + (startTime - endTime);
-            //   long f = Runtime.getRuntime().freeMemory();
-            //   a = a + (s-f);
-            //   System.gc();
+        }
+        for (int i = 0; i < numberOfStarts; i++) {
+            long s = Runtime.getRuntime().freeMemory();
+            method1String("This is test a string This is a test string", 4, '%');
+            long f = Runtime.getRuntime().freeMemory();
+            a = a + (s - f);
+            System.gc();
         }
         average = average / numberOfStarts;
-        //  a = a / numberOfStarts;
+        a = a / numberOfStarts;
         System.out.println(" Method 1 execution time: " + average);
-        //   System.out.println(" Method 1 execution mem: " + a);
+        System.out.println(" Method 1 execution memory: " + a);
     }
 
     static void test2() {
-        int numberOfStarts = 1000000;
         long average = 0;
-        //  long a = 0;
+        long a = 0;
         for (int i = 0; i < numberOfStarts; i++) {
-            //      long s = Runtime.getRuntime().freeMemory();
             long startTime = System.nanoTime();
             method2StringB("This is test a string This is a test string", 4, '%');
             long endTime = System.nanoTime();
             average = average + (startTime - endTime);
-            //      long f = Runtime.getRuntime().freeMemory();
-            //     a = a + (s-f);
-            //     System.gc();
+        }
+        for (int i = 0; i < numberOfStarts; i++) {
+            long s = Runtime.getRuntime().freeMemory();
+            method2StringB("This is test a string This is a test string", 4, '%');
+            long f = Runtime.getRuntime().freeMemory();
+            a = a + (s - f);
+            System.gc();
         }
         average = average / numberOfStarts;
-        //   a = a / numberOfStarts;
-        System.out.println(" Method 2 execution time: " + average);
-        //  System.out.println(" Method 2 execution mem: " + a);
+        a = a / numberOfStarts;
+        System.out.println(" Method 2(SB) execution time: " + average);
+        System.out.println(" Method 2(SB) execution memory: " + a);
     }
+
+    static void test3() {
+        long average = 0;
+        long a = 0;
+        for (int i = 0; i < numberOfStarts; i++) {
+            long startTime = System.nanoTime();
+            method3String("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
+            long endTime = System.nanoTime();
+            average = average + (startTime - endTime);
+        }
+        for (int i = 0; i < numberOfStarts; i++) {
+            long s = Runtime.getRuntime().freeMemory();
+            method3String("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
+            long f = Runtime.getRuntime().freeMemory();
+            a = a + (s - f);
+            System.gc();
+        }
+        average = average / numberOfStarts;
+        a = a / numberOfStarts;
+        System.out.println(" Method 3 execution time: " + average);
+        System.out.println(" Method 3 execution memory: " + a);
+    }
+
+    static void test4() {
+        long average = 0;
+        long a = 0;
+        for (int i = 0; i < numberOfStarts; i++) {
+            long startTime = System.nanoTime();
+            method4StringB("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
+            long endTime = System.nanoTime();
+            average = average + (startTime - endTime);
+        }
+        for (int i = 0; i < numberOfStarts; i++) {
+            long s = Runtime.getRuntime().freeMemory();
+            method4StringB("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
+            long f = Runtime.getRuntime().freeMemory();
+            a = a + (s - f);
+            System.gc();
+        }
+        average = average / numberOfStarts;
+        a = a / numberOfStarts;
+        System.out.println(" Method 4(SB) execution time: " + average);
+        System.out.println(" Method 4(SB) execution memory: " + a);
+    }
+
+
 }
