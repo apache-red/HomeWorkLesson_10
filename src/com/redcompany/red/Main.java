@@ -7,6 +7,8 @@ public class Main {
 
           System.out.println(method1String("This is test a string This is a test string", 4, '%'));
           System.out.println(method2StringB("This is test a string This is a test string", 3, '%'));
+        System.out.println(method3StringB("This is ingtest a singtring This is a test string This is test a string This is a test string", "ing", "%%%"));
+
 
         // speed test
         //test1();
@@ -16,46 +18,25 @@ public class Main {
     }
 
 
-    static void test1() {
-        int numberOfStarts = 1000000;
-        long average = 0;
-        // long a = 0;
-        for (int i = 0; i < numberOfStarts; i++) {
-            //    long s = Runtime.getRuntime().freeMemory();
-            long startTime = System.nanoTime();
-            method1String("This is test a string This is a test string", 4, '%');
-            long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
-            //   long f = Runtime.getRuntime().freeMemory();
-            //   a = a + (s-f);
-            //   System.gc();
+    static String method3StringB(String s, String find, String change) {
+        String[] arrOfStr = s.split(" ");
+        StringBuilder resultSB = new StringBuilder();
+        tab:
+        for (int i = 0; i < arrOfStr.length; i++) {
+            StringBuilder sb = new StringBuilder(arrOfStr[i]);
+            if (arrOfStr[i].contains(find)) {
+                if (find.equals(sb.substring((arrOfStr[i].length() - find.length()), arrOfStr[i].length()))) {
+                    resultSB.append(sb.replace(arrOfStr[i].length() - find.length(), arrOfStr[i].length(), change)+" ");
+                }else {
+                    resultSB.append(sb.append(" "));
+                }
+            } else {
+                resultSB.append(sb.append(" "));
+                continue tab;
+            }
         }
-        average = average / numberOfStarts;
-        //  a = a / numberOfStarts;
-        System.out.println(" Method 1 execution time: " + average);
-        //   System.out.println(" Method 1 execution mem: " + a);
+        return resultSB.toString();
     }
-
-    static void test2() {
-        int numberOfStarts = 1000000;
-        long average = 0;
-        //  long a = 0;
-        for (int i = 0; i < numberOfStarts; i++) {
-            //      long s = Runtime.getRuntime().freeMemory();
-            long startTime = System.nanoTime();
-            method2StringB("This is test a string This is a test string", 4, '%');
-            long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
-            //      long f = Runtime.getRuntime().freeMemory();
-            //     a = a + (s-f);
-            //     System.gc();
-        }
-        average = average / numberOfStarts;
-        //   a = a / numberOfStarts;
-        System.out.println(" Method 2 execution time: " + average);
-        //  System.out.println(" Method 2 execution mem: " + a);
-    }
-
 
     static String method1String(String s, int k, char change) {
         if (s.length() <= 0 | s == null | k <= 0) {
@@ -98,4 +79,43 @@ public class Main {
     }
 
 
+    static void test1() {
+        int numberOfStarts = 1000000;
+        long average = 0;
+        // long a = 0;
+        for (int i = 0; i < numberOfStarts; i++) {
+            //    long s = Runtime.getRuntime().freeMemory();
+            long startTime = System.nanoTime();
+            method1String("This is test a string This is a test string", 4, '%');
+            long endTime = System.nanoTime();
+            average = average + (startTime - endTime);
+            //   long f = Runtime.getRuntime().freeMemory();
+            //   a = a + (s-f);
+            //   System.gc();
+        }
+        average = average / numberOfStarts;
+        //  a = a / numberOfStarts;
+        System.out.println(" Method 1 execution time: " + average);
+        //   System.out.println(" Method 1 execution mem: " + a);
+    }
+
+    static void test2() {
+        int numberOfStarts = 1000000;
+        long average = 0;
+        //  long a = 0;
+        for (int i = 0; i < numberOfStarts; i++) {
+            //      long s = Runtime.getRuntime().freeMemory();
+            long startTime = System.nanoTime();
+            method2StringB("This is test a string This is a test string", 4, '%');
+            long endTime = System.nanoTime();
+            average = average + (startTime - endTime);
+            //      long f = Runtime.getRuntime().freeMemory();
+            //     a = a + (s-f);
+            //     System.gc();
+        }
+        average = average / numberOfStarts;
+        //   a = a / numberOfStarts;
+        System.out.println(" Method 2 execution time: " + average);
+        //  System.out.println(" Method 2 execution mem: " + a);
+    }
 }
