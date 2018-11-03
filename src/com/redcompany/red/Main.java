@@ -2,7 +2,7 @@ package com.redcompany.red;
 
 public class Main {
     //test
-    final static int numberOfStarts = 10000;
+    final static int numberOfStarts = 10;
 
     public static void main(String[] args) {
 
@@ -108,7 +108,7 @@ public class Main {
             long startTime = System.nanoTime();
             method1String("This is test a string This is a test string", 4, '%');
             long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
+            average = average + (endTime -startTime);
         }
         for (int i = 0; i < numberOfStarts; i++) {
             long s = Runtime.getRuntime().freeMemory();
@@ -130,7 +130,7 @@ public class Main {
             long startTime = System.nanoTime();
             method2StringB("This is test a string This is a test string", 4, '%');
             long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
+            average = average + (endTime -startTime);
         }
         for (int i = 0; i < numberOfStarts; i++) {
             long s = Runtime.getRuntime().freeMemory();
@@ -152,7 +152,7 @@ public class Main {
             long startTime = System.nanoTime();
             method3String("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
             long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
+            average = average + (endTime -startTime);
         }
         for (int i = 0; i < numberOfStarts; i++) {
             long s = Runtime.getRuntime().freeMemory();
@@ -174,7 +174,7 @@ public class Main {
             long startTime = System.nanoTime();
             method4StringB("This is ingtest a singtrIng This is a test string This is test a string This is a test string", "ing", "%%%");
             long endTime = System.nanoTime();
-            average = average + (startTime - endTime);
+            average = average + (endTime -startTime);
         }
         for (int i = 0; i < numberOfStarts; i++) {
             long s = Runtime.getRuntime().freeMemory();
